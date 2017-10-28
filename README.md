@@ -31,7 +31,7 @@ Simple and full-featured mail server as a set of multiple docker images includes
 - **NSD** : authoritative DNS server with DNSSEC support
 - **Nginx** : web server with HTTP/2 and TLS 1.3 (DRAFT), statically linked against BoringSSL
 - **SSL** : lets encrypt, custom and self-signed certificates support
-- Supporting multiple virtual domains over MySQL backend
+- Supporting multiple virtual domains over PostgreSQL backend
 - Integration tests with Travis CI
 - Automated builds on DockerHub
 
@@ -236,11 +236,11 @@ Github issue : https://github.com/hardware/mailserver/issues/118
 | **VMAIL_SUBDIR** | Individual mailbox' subdirectory | *optional* | mail
 | **OPENDKIM_KEY_LENGTH** | Size of your DKIM RSA key pair | *optional* | 1024
 | **PASSWORD_SCHEME** | Passwords encryption scheme | *optional* | `SHA512-CRYPT`
-| **DBHOST** | MariaDB instance ip/hostname | *optional* | mariadb
-| **DBPORT** | MariaDB instance port | *optional* | 3306
-| **DBUSER** | MariaDB database username | *optional* | postfix
-| **DBNAME** | MariaDB database name | *optional* | postfix
-| **DBPASS** | MariaDB database password or location of a file containing it | **required** | null
+| **DBHOST** | PostgreSQL instance ip/hostname | *optional* | postgresql
+| **DBPORT** | PostgreSQL instance port | *optional* | 3306
+| **DBUSER** | PostgreSQL database username | *optional* | postfix
+| **DBNAME** | PostgreSQL database name | *optional* | postfix
+| **DBPASS** | PostgreSQL database password or location of a file containing it | **required** | null
 | **REDIS_HOST** | Redis instance ip/hostname | *optional*  | redis
 | **REDIS_PORT** | Redis instance port | *optional*  | 6379
 | **REDIS_PASS** | Redis database password or location of a file containing it | *optional* | null

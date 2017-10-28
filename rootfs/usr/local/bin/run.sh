@@ -29,8 +29,8 @@ DOMAIN=${DOMAIN:-$(hostname --domain)}
 VMAILUID=${VMAILUID:-1024}
 VMAILGID=${VMAILGID:-1024}
 VMAIL_SUBDIR=${VMAIL_SUBDIR:-"mail"}
-DBHOST=${DBHOST:-mariadb}
-DBPORT=${DBPORT:-3306}
+DBHOST=${DBHOST:-postgresql}
+DBPORT=${DBPORT:-5432}
 DBNAME=${DBNAME:-postfix}
 DBUSER=${DBUSER:-postfix}
 DBPASS=$([ -f "$DBPASS" ] && cat "$DBPASS" || echo "${DBPASS:-}")
@@ -58,7 +58,7 @@ RELAY_NETWORKS=${RELAY_NETWORKS:-}
 PASSWORD_SCHEME=${PASSWORD_SCHEME:-"SHA512-CRYPT"}
 
 if [ -z "$DBPASS" ]; then
-  echo "[ERROR] Mariadb database password must be set !"
+  echo "[ERROR] PostgreSQL database password must be set !"
   exit 1
 fi
 
@@ -240,11 +240,11 @@ fi
 # DATABASES HOSTNAME CHECKING
 # ---------------------------------------------------------------------------------------------
 
-# Check mariadb hostname
+# Check postgresql hostname
 grep -q "${DBHOST}" /etc/hosts
 
 if [ $? -ne 0 ]; then
-  echo "[INFO] MariaDB hostname not found in /etc/hosts"
+  echo "[INFO] PostgreSQL hostname not found in /etc/hosts"
   IP=$(dig A ${DBHOST} +short)
   if [ -n "$IP" ]; then
     echo "[INFO] Container IP found, adding a new record in /etc/hosts"
@@ -254,7 +254,7 @@ if [ $? -ne 0 ]; then
     exit 1
   fi
 else
-  echo "[INFO] MariaDB hostname found in /etc/hosts"
+  echo "[INFO] PostgreSQL hostname found in /etc/hosts"
 fi
 
 # Check redis hostname

@@ -6,9 +6,9 @@ LABEL description "Simple and full-featured mail server using Docker" \
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y -q --no-install-recommends \
-    postfix postfix-mysql postfix-pcre libsasl2-modules \
-    dovecot-core dovecot-imapd dovecot-lmtpd dovecot-mysql dovecot-sieve dovecot-managesieved dovecot-pop3d \
-    fetchmail libdbi-perl libdbd-mysql-perl liblockfile-simple-perl \
+    postfix postfix-pgsql postfix-pcre libsasl2-modules \
+    dovecot-core dovecot-imapd dovecot-lmtpd dovecot-pgsql dovecot-sieve dovecot-managesieved dovecot-pop3d \
+    fetchmail libdbi-perl libdbd-pg-perl liblockfile-simple-perl \
     clamav-daemon \
     python-pip python-setuptools python-gpgme \
     rsyslog dnsutils curl unbound \

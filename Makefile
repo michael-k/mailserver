@@ -11,18 +11,17 @@ build:
 	docker build -t $(NAME) .
 
 init:
-	-docker rm -f mariadb redis mailserver_default mailserver_reverse mailserver_ecdsa
+	-docker rm -f postgresql redis mailserver_default mailserver_reverse mailserver_ecdsa
 	sleep 2
 
 	docker run \
 		-d \
-		--name mariadb \
-		-e MYSQL_ROOT_PASSWORD=testpasswd \
-		-e MYSQL_DATABASE=postfix \
-		-e MYSQL_USER=postfix \
-		-e MYSQL_PASSWORD=testpasswd \
-		-v "`pwd`/test/config/mariadb":/docker-entrypoint-initdb.d \
-		-t mariadb:10.2
+		--name postgresql \
+		-e POSTGRES_DB=postfix \
+		-e POSTGRES_USER=postfix \
+		-e POSTGRES_PASSWORD=testpasswd \
+		-v "`pwd`/test/config/postgresql":/docker-entrypoint-initdb.d \
+		-t postgres:10-alpine
 
 	docker run \
 		-d \
@@ -34,7 +33,7 @@ init:
 	docker run \
 		-d \
 		--name mailserver_default \
-		--link mariadb:mariadb \
+		--link postgresql:postgresql \
 		--link redis:redis \
 		-e DBPASS=testpasswd \
 		-e RSPAMD_PASSWORD=testpasswd \
@@ -52,11 +51,11 @@ init:
 	docker run \
 		-d \
 		--name mailserver_reverse \
-		--link mariadb:mariadb \
+		--link postgresql:postgresql \
 		--link redis:redis \
 		-e FQDN=mail.domain.tld \
 		-e DOMAIN=domain.tld \
-		-e DBPASS=/tmp/passwd/mariadb \
+		-e DBPASS=/tmp/passwd/postgresql \
 		-e REDIS_HOST=redis \
 		-e REDIS_PORT=6379 \
 		-e REDIS_PASS=/tmp/passwd/redis \
@@ -85,7 +84,7 @@ init:
 	docker run \
 		-d \
 		--name mailserver_ecdsa \
-		--link mariadb:mariadb \
+		--link postgresql:postgresql \
 		--link redis:redis \
 		-e DBPASS=testpasswd \
 		-e RSPAMD_PASSWORD=testpasswd \
